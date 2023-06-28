@@ -1,19 +1,24 @@
-import React, { createContext, useState } from 'react';
+import React, { useState } from 'react';
 
-const SettingsContext = createContext();
+export const SettingsContext = React.createContext();
 
-const SettingsProvider = ({ children }) => {
-  const [settings] = useState({
-    itemsPerPage: 3,
-    hideCompleted: true,
-    sortWord: 'difficulty',
-  });
+function SettingsProvider({ children }){
 
-  return (
-    <SettingsContext.Provider value={settings}>
+  const [pageItems, setPageItems] = useState(3);
+  const [completed, setCompleted] = useState(true);
+  const [sort, setSort] = useState('difficulty');
+
+  const values = {
+    pageItems,
+    completed,
+    sort,
+  }
+
+  return(
+    <SettingsContext.Provider value={values}>
       {children}
     </SettingsContext.Provider>
-  );
-};
+  )
+}
 
-export { SettingsContext, SettingsProvider };
+export default SettingsProvider;

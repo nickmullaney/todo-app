@@ -1,50 +1,48 @@
-import React, { useContext, useState } from 'react';
-import { SettingsContext } from '../Context/Settings/index';
-import { Pagination}  from '@mantine/core';
-import { Paper, Text } from '@mantine/core';
+import { Pagination } from '@mantine/core';
+import { SettingsContext } from '../Context/Settings';
+import { useContext, useState } from 'react';
 
-// Placeholder items array
-const items = [
-  { id: 1, title: 'Item 1', completed: false },
-  { id: 2, title: 'Item 2', completed: true },
-  { id: 3, title: 'Item 3', completed: false },
-  // Add more items as needed
-];
+import { Grid, TextInput, Card } from '@mantine/core';
 
-function List() {
-  const { itemsPerPage, hideCompleted } = useContext(SettingsContext);
+function List(props) {
+
+  const { pageItems, completed, sort } = useContext(SettingsContext);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const pages = Math.ceil(props.list.length / pageItems);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
+  const displayItems = completed 
+  ? props.list.filter((items) => !items.complete)
+  : props.list;
 
-  // Filter completed items based on hideCompleted setting
-  const filteredItems = items.filter((item) => !item.completed || !hideCompleted);
-
-  const itemsToRender = filteredItems
-    .slice(startIndex, endIndex)
-    .map((item) => (
-      <Paper key={item.id} padding="md" marginBottom="xs">
-        <Text>{item.title}</Text>
-      </Paper>
-    ));
+  const firstItem = (currentPage - 1) * pageItems;
+  const lastItem = currentPage * pageItems;
+  const finalItems = displayItems.slice(firstItem, lastItem);
 
   return (
-    <div>
-      {itemsToRender}
+    <>
+    <Grid display="inline-block">
+      <Card>
+
+      {finalItems.map(item => (
+        <div key={item.id}>
+          <p>{item.text}</p>
+          <p><small>Assigned to: {item.assignee}</small></p>
+          <p><small>Difficulty: {item.difficulty}</small></p>
+          <div onClick={() => props.toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
+          <hr />
+        </div>
+      ))}
+
       <Pagination
-        color="blue"
-        size="sm"
-        currentPage={currentPage}
-        onChange={handlePageChange}
-        total={Math.ceil(filteredItems.length / itemsPerPage)}
+        total={pages}
+        value={currentPage}
+        onChange={(value)=> setCurrentPage(value)}
       />
-    </div>
-  );
+      </Card>
+    </Grid>
+    </>
+  )
 }
 
 export default List;

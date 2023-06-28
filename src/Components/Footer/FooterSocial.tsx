@@ -1,6 +1,6 @@
 import { createStyles, Container, Group, ActionIcon, rem } from '@mantine/core';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
-import { MantineLogo } from '@mantine/ds';
+import  logo from '../../assets/Todozies.gif';
 import React from 'react';
 
 const useStyles = createStyles((theme) => ({
@@ -36,7 +36,8 @@ export function FooterSocial() {
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <MantineLogo size={28} />
+      <img src={logo} alt="Logo" height={50} />
+      <p>Copywrite NickMullaney: 2023</p>
         <Group spacing={0} className={classes.links} position="right" noWrap>
           <ActionIcon size="lg">
             <IconBrandTwitter size="1.05rem" stroke={1.5} />
