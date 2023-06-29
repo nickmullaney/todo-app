@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Todo from './Components/Todo';
 import Footer from './Components/Footer';
 import HeaderMenu from './Components/Header';
+import SettingsForm from './Components/SettingsForm';
+import { ModalLogin } from './Components/Modals/modalLogin';
+import { ModalSignup } from './Components/Modals/modalSignup';
 
 function App() {
   const [loginOpened, setLoginOpened] = useState(false);
@@ -32,7 +35,10 @@ function App() {
         closeSignupModal={closeSignupModal}
         signupOpened={signupOpened}
       />
+      <ModalLogin opened={loginOpened} onClose={closeLoginModal} />
+      <ModalSignup opened={signupOpened} onClose={closeSignupModal} />
       <Todo />
+      <SettingsForm />
       <Footer />
     </>
   );

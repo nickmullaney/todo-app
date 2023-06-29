@@ -1,6 +1,5 @@
 import {
-  createStyles,
-  Header,
+  createStyles, Header,
   HoverCard,
   Group,
   Button,
@@ -30,6 +29,7 @@ import {
   IconMoon,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
+
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -103,7 +103,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const mockdata = [
-  // An array of mock data objects
   {
     icon: IconList,
     title: 'To Do List',
@@ -117,24 +116,25 @@ const mockdata = [
 ];
 
 function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSignupModal, signupOpened }) {
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false); // State and toggle function for the drawer
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false); // State and toggle function for the links
-  const { classes, theme } = useStyles(); // Accessing the classes and theme from the useStyles hook
-  const [colorScheme, setColorScheme] = useState('light'); // State variable for color scheme
-  const [username, setUsername] = useState(''); // State variable for username
-  const [password, setPassword] = useState(''); // State variable for password
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
+  const { classes, theme } = useStyles();
+  const [colorScheme, setColorScheme] = useState('light');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
 
   const handleSignupSubmit = () => {
     // Perform signup logic here
     console.log('Signup Data:', { username, password });
-
+  
     // Close the modal after submitting
     closeSignupModal();
   };
+  
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
-      {/* Rendered links based on the mock data */}
       <Group noWrap align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">
           <item.icon size={rem(22)} color={theme.fn.primaryColor()} />
@@ -174,13 +174,9 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
 
   return (
     <Box pb={120} className={classes.box}>
-      {/* Header component */}
       <Header height={60} px="md" className={classes.header}>
         <Group position="apart" sx={{ height: '100%' }}>
-          {/* Logo or image */}
-          {/* Omitted for brevity */}
-
-          {/* Links */}
+          {/* <img src={logo} alt="Logo" height={70} /> */}
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
             <a href="#" className={classes.link}>
               Home
@@ -210,38 +206,22 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
                   {links}
                 </SimpleGrid>
                 <div className={classes.dropdownFooter}>
-                  {/* Dropdown footer */}
-                  {/* Omitted for brevity */}
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
 
-            {/* Settings button */}
             <Button onClick={toggleColorScheme}>Settings</Button>
-
-            {/* Dark/Light Mode button */}
-            <Button
-              onClick={toggleColorScheme}
-              leftIcon={<>{colorScheme === 'light' ? <IconSun /> : <IconMoon />}</>}
-            >
+            <Button onClick={toggleColorScheme} leftIcon={<>{colorScheme === 'light' ? <IconSun /> : <IconMoon />}</>}>
               {colorScheme === 'light' ? 'Light Mode' : 'Dark Mode'}
             </Button>
           </Group>
-
-          {/* Login and signup buttons */}
           <Group className={classes.hiddenMobile}>
-            <Button variant="default" onClick={openLoginModal}>
-              Log in
-            </Button>
+            <Button variant="default" onClick={openLoginModal}>Log in</Button>
             <Button onClick={openSignupModal}>Sign up</Button>
           </Group>
-
-          {/* Burger menu for mobile */}
           <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
         </Group>
       </Header>
-
-      {/* Drawer component */}
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
@@ -251,14 +231,11 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
         className={classes.hiddenDesktop}
         zIndex={1000000}
       >
-        {/* ScrollArea component */}
         <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
           <a href="#" className={classes.link}>
             Home
           </a>
-
-          {/* Dropdown links */}
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
@@ -268,17 +245,12 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
-
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
-
-          {/* Buttons */}
           <Group position="center" grow pb="xl" px="md">
-            <Button onClick={toggleColorScheme} leftIcon={colorScheme === 'light' ? IconSun : IconMoon}>
-              Dark/Light {colorScheme === 'light' ? 'Light Mode' : 'Dark Mode'}
+            <Button onClick={toggleColorScheme} leftIcon={colorScheme === 'light' ? IconSun : IconMoon}> Dark/Light
+              {colorScheme === 'light' ? 'Light Mode' : 'Dark Mode'}
             </Button>
-            <Button variant="default" onClick={openLoginModal}>
-              Log in
-            </Button>
+            <Button variant="default" onClick={openLoginModal}>Log in</Button>
             <Button variant="default" onClick={openSignupModal}>
               Sign up
             </Button>

@@ -3,12 +3,13 @@ import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/
 import logo from '../../assets/Todozies.gif';
 import React from 'react';
 
-// Create CSS styles using the createStyles function from @mantine/core
 const useStyles = createStyles((theme) => ({
   footer: {
     marginTop: '50%', // push footer to the bottom of the page
-    borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]}`,
-    width: '100%',
+    borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
+      }`,
+      width: '100%',
+     
   },
 
   inner: {
@@ -36,13 +37,8 @@ const Footer = () => {
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        {/* Render the logo */}
         <img src={logo} alt="Logo" height={50} />
-
-        {/* Display copyright information */}
         &copy; Todozies, 2023. All rights reserved.
-
-        {/* Render social media icons */}
         <Group spacing={0} className={classes.links} position="right" noWrap>
           <ActionIcon size="lg">
             <IconBrandTwitter size="1.05rem" stroke={1.5} />
@@ -56,7 +52,7 @@ const Footer = () => {
         </Group>
       </Container>
     </div>
-  );
+  )
 };
 
 export default Footer;

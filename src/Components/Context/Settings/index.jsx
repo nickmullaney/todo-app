@@ -1,44 +1,57 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const SettingsContext = createContext();
+// Create a new context called SettingsContext
+export const SettingsContext = React.createContext();
 
 function SettingsProvider({ children }) {
+  // Define state variables using the useState hook
   const [pageItems, setPageItems] = useState(3);
-  const [completed, setCompleted] = useState(true);
+  const [showCompleted, setShowCompleted] = useState(false);
   const [sort, setSort] = useState('difficulty');
 
-  useEffect(() => {
-    // Retrieve settings from localStorage on component mount
-    const storedSettings = localStorage.getItem('settings');
-    if (storedSettings) {
-      const parsedSettings = JSON.parse(storedSettings);
-      setPageItems(parsedSettings.pageItems);
-      setCompleted(parsedSettings.completed);
-      setSort(parsedSettings.sort);
-    }
-  }, []);
-
-  const updateSettings = (newSettings) => {
-    setPageItems(newSettings.pageItems);
-    setCompleted(newSettings.completed);
-    setSort(newSettings.sort);
+  // Function to save settings in localStorage
+  const saveLocalStorage = () => {
+    localStorage.setItem('pageItems', JSON.stringify(+pageItems)); // Convert pageItems to a number using '+'
+    localStorage.setItem('showCompleted', JSON.stringify(showCompleted));
+    localStorage.setItem('sort', JSON.stringify(sort));
   };
 
-  useEffect(() => {
-    // Save settings to localStorage whenever they change
-    const settings = { pageItems, completed, sort };
-    localStorage.setItem('settings', JSON.stringify(settings));
-  }, [pageItems, completed, sort]);
-
-  const contextValues = {
+  // Combine state variables and saveLocalStorage function into a single object
+  const values = {
     pageItems,
-    completed,
+    setPageItems,
+    showCompleted,
+    setShowCompleted,
     sort,
-    updateSettings,
+    setSort,
+    saveLocalStorage,
   };
+
+  // useEffect hook to load settings from localStorage when the component mounts
+  useEffect(() => {
+    const localPageItems = localStorage.getItem('pageItems');
+    console.log('my local page items', localPageItems);
+    const localShowCompleted = localStorage.getItem('showCompleted');
+    console.log('my local show completed', localShowCompleted);
+    const localSort = localStorage.getItem('sort');
+    console.log('my local sort', localSort);
+
+    // Check if localPageItems exists and update the state variable if true
+    if (localPageItems) {
+      setPageItems(JSON.parse(localPageItems)); // Convert the stored string back to a number using JSON.parse()
+    }
+    // Check if localShowCompleted exists and update the state variable if true
+    if (localShowCompleted) {
+      setShowCompleted(JSON.parse(localShowCompleted));
+    }
+    // Check if localSort exists and update the state variable if true
+    if (localSort) {
+      setSort(JSON.parse(localSort));
+    }
+  }, []); // The empty dependency array ensures the effect runs only once when the component mounts
 
   return (
-    <SettingsContext.Provider value={contextValues}>
+    <SettingsContext.Provider value={values}>
       {children}
     </SettingsContext.Provider>
   );
