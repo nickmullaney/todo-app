@@ -1,47 +1,54 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const SettingsContext = createContext();
+export const SettingsContext = React.createContext();
 
 function SettingsProvider({ children }) {
   const [pageItems, setPageItems] = useState(3);
-  const [completed, setCompleted] = useState(true);
+  const [showCompleted, setShowCompleted] = useState(false);
   const [sort, setSort] = useState('difficulty');
 
-  useEffect(() => {
-    // Retrieve settings from localStorage on component mount
-    const storedSettings = localStorage.getItem('settings');
-    if (storedSettings) {
-      const parsedSettings = JSON.parse(storedSettings);
-      setPageItems(parsedSettings.pageItems);
-      setCompleted(parsedSettings.completed);
-      setSort(parsedSettings.sort);
-    }
-  }, []);
-
-  const updateSettings = (newSettings) => {
-    setPageItems(newSettings.pageItems);
-    setCompleted(newSettings.completed);
-    setSort(newSettings.sort);
+  // super helpful: https://www.freecodecamp.org/news/how-to-use-localstorage-with-react-hooks-to-set-and-get-items/
+  const saveLocalStorage = () => {
+    localStorage.setItem('pageItems', JSON.stringify(+pageItems));//+pageItems converts string to number
+    localStorage.setItem('showCompleted', JSON.stringify(showCompleted));
+    localStorage.setItem('sort', JSON.stringify(sort));
   };
 
-  useEffect(() => {
-    // Save settings to localStorage whenever they change
-    const settings = { pageItems, completed, sort };
-    localStorage.setItem('settings', JSON.stringify(settings));
-  }, [pageItems, completed, sort]);
-
-  const contextValues = {
+  const values = {
     pageItems,
-    completed,
+    setPageItems,
+    showCompleted,
+    setShowCompleted,
     sort,
-    updateSettings,
+    setSort,
+    saveLocalStorage 
+  }
+
+  useEffect(() => { 
+  const localPageItems = localStorage.getItem('pageItems');
+  console.log('my local page items', localPageItems);
+  const localShowCompleted = localStorage.getItem('showCompleted');
+  console.log('my local show completed', localShowCompleted);
+  const localSort = localStorage.getItem('sort');
+  console.log('my local sort', localSort);
+  //trying to practice one line if statements
+  if(localPageItems){
+    setPageItems(JSON.parse(localPageItems));
+  }
+  if(localShowCompleted){
+    setShowCompleted(JSON.parse(localShowCompleted));
+  }
+  if(localSort){
+    setSort(JSON.parse(localSort))
   };
+}, []);
 
   return (
-    <SettingsContext.Provider value={contextValues}>
+    <SettingsContext.Provider value={values}>
       {children}
     </SettingsContext.Provider>
-  );
+  )
 }
+
 
 export default SettingsProvider;
