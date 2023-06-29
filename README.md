@@ -76,3 +76,5 @@ This project is licensed under the [MIT License](LICENSE).
 ### Collaborators
 
 Thanks to Reece, Ike, & Ryan for the collaboration
+
+Thanks to ChatGPT for assisting with broken code sections and tests
