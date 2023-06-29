@@ -1,7 +1,5 @@
-
 import {
-  createStyles,
-  Header,
+  createStyles, Header,
   HoverCard,
   Group,
   Button,
@@ -19,6 +17,8 @@ import {
   rem,
   Modal,
   TextInput,
+  Paper,
+  Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -29,7 +29,9 @@ import {
   IconMoon,
 } from '@tabler/icons-react';
 import React, { useState } from 'react';
-// import logo from '../../assets/Todozies.gif';
+import SettingsForm from '../SettingsForm';
+import { ModalLogin } from '../Modals/modalLogin';
+import { ModalSignup } from '../Modals/modalSignup';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -105,38 +107,31 @@ const mockdata = [
   },
 ];
 
-export function HeaderMenu() {
+function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSignupModal, signupOpened }) {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
-  const [loginOpened, { open: openLoginModal, close: closeLoginModal }] = useDisclosure(false);
   const [colorScheme, setColorScheme] = useState('light');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [signupOpened, { open: openSignupModal, close: closeSignupModal }] = useDisclosure(false);
-  const [signupData, setSignupData] = useState({
-    name: '',
-    email: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
-  const handleSignupDataChange = (event) => {
-    const { name, value } = event.target;
-    setSignupData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleOpenSettings = () => {
+    setSettingsModalOpen(true);
+  };
+
+  const handleCloseSettingsModal = () => {
+    setSettingsModalOpen(false);
   };
 
   const handleSignupSubmit = () => {
     // Perform signup logic here
-    console.log('Signup Data:', signupData);
-
+    console.log('Signup Data:', { username, password });
+  
     // Close the modal after submitting
     closeSignupModal();
   };
+  
 
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
@@ -211,27 +206,18 @@ export function HeaderMenu() {
                   {links}
                 </SimpleGrid>
                 <div className={classes.dropdownFooter}>
-                  {/* <Group position="apart">
-                    <div>
-                      <Text fw={500} fz="sm">
-                        Get started
-                      </Text>
-                      <Text size="xs" color="dimmed">
-                        Learn about how our ToDo's work
-                      </Text>
-                    </div>
-                    <Button variant="default">Get started</Button>
-                  </Group> */}
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
+
+            <Button onClick={handleOpenSettings}>Settings</Button>
             <Button onClick={toggleColorScheme} leftIcon={<>{colorScheme === 'light' ? <IconSun /> : <IconMoon />}</>}>
               {colorScheme === 'light' ? 'Light Mode' : 'Dark Mode'}
             </Button>
           </Group>
           <Group className={classes.hiddenMobile}>
             <Button variant="default" onClick={openLoginModal}>Log in</Button>
-            <Button>Sign up</Button>
+            <Button onClick={openSignupModal}>Sign up</Button>
           </Group>
           <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
         </Group>
@@ -272,66 +258,14 @@ export function HeaderMenu() {
         </ScrollArea>
       </Drawer>
 
-      <Modal opened={loginOpened} onClose={closeLoginModal} title="Login" centered>
-        <div className={classes.modalContent}>
-          <TextInput
-            label="Username"
-            value={username}
-            onChange={handleUsernameChange}
-            placeholder="Enter your username"
-          />
-          <TextInput
-            label="Password"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder="Enter your password"
-            type="password"
-          />
-          <Button onClick={handleLoginSubmit}>Submit</Button>
-        </div>
-      </Modal>
+      {/* <ModalLogin opened={openLoginModal} onClose={closeLoginModal} />
+      <ModalSignup opened={openSignupModal} onClose={closeSignupModal} /> */}
 
-      <Modal opened={signupOpened} onClose={closeSignupModal} title="Sign Up" centered>
-        <div className={classes.modalContent}>
-          <TextInput
-            label="Name"
-            name="name"
-            value={signupData.name}
-            onChange={handleSignupDataChange}
-            placeholder="Enter your name"
-          />
-          <TextInput
-            label="Email"
-            name="email"
-            value={signupData.email}
-            onChange={handleSignupDataChange}
-            placeholder="Enter your email"
-          />
-          <TextInput
-            label="Username"
-            name="username"
-            value={signupData.username}
-            onChange={handleSignupDataChange}
-            placeholder="Enter your username"
-          />
-          <TextInput
-            label="Password"
-            name="password"
-            value={signupData.password}
-            onChange={handleSignupDataChange}
-            placeholder="Enter your password"
-            type="password"
-          />
-          <TextInput
-            label="Confirm Password"
-            name="confirmPassword"
-            value={signupData.confirmPassword}
-            onChange={handleSignupDataChange}
-            placeholder="Confirm your password"
-            type="password"
-          />
-          <Button onClick={handleSignupSubmit}>Sign Up</Button>
-        </div>
+      <Modal opened={settingsModalOpen} onClose={handleCloseSettingsModal}>
+        <Paper padding="md">
+          <Title order={2}>Settings</Title>
+          <SettingsForm />
+        </Paper>
       </Modal>
     </Box>
   );
