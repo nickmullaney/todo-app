@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import useForm from '../hooks/form';
-
 import { v4 as uuid } from 'uuid';
-import Header from '../Header';
-import Footer from '../Footer';
+
 import List from '../List';
-
 import { Grid, TextInput, Card } from '@mantine/core';
-
 import { Button } from '@mantine/core';
 import { Slider } from '@mantine/core';
 
@@ -56,12 +52,7 @@ const Todo = () => {
 
   return (
     <>
-      {/* rendering but need to check if incomplete is passing down correctly */}
-      <Header incomplete={incomplete} />
-
-      {/* leave the form code inside of the Todo Component */}
-
-
+  <h1 data-testid="todo-h1">To Do List: {incomplete} items pending</h1>
       <Grid display="inline-block">
         <Card>
 
@@ -102,7 +93,7 @@ const Todo = () => {
 
       <List list={list} toggleComplete={toggleComplete} />
 
-      <Footer />
+      
     </>
   );
 };
