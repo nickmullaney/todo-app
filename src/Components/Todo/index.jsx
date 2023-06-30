@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react';
 import useForm from '../../hooks/form';
 import { v4 as uuid } from 'uuid';
 import List from '../List';
+import { Grid, Card, TextInput, Button, Text, createStyles, Slider } from '@mantine/core';
+import Auth from '../Auth';
 
-import { Grid, TextInput, Button, Text, createStyles, Slider } from '@mantine/core';
 
 const styles = createStyles((theme) => ({
   todo: {
     backgroundColor: theme.colors.gray[8],
     color: theme.colors.gray[0],
-    fontSize: '20px',
-    fontWeight: 'bold',
-    margin: '16px auto',
-    padding: '16px',
     width: '80%',
+    margin: 'auto',
+    fontSize: theme.fontSizes.lg,
+    padding: theme.spacing.md,
+    marginTop: theme.spacing.md,
+    marginBottom: theme.spacing.md,
   }
 }));
 
@@ -63,38 +65,42 @@ const Todo = () => {
     <>
       <h1 data-testid="header-h1" className={classes.todo}>To Do List: {incomplete} items pending</h1>
 
-      <Grid>
+      <Grid style={{ width: '80%', margin: 'auto' }}>
         <Grid.Col xs={12} sm={4}>
-          <form onSubmit={handleSubmit}>
-            <h2>Add To Do Item</h2>
+          <Auth capability="create">
+            <Card withBorder>
+              <form onSubmit={handleSubmit}>
+                <h2>Add To Do Item</h2>
 
-            <TextInput
-              onChange={handleChange}
-              name="text"
-              type="text"
-              placeholder="Item Details"
-            />
+                <TextInput
+                  onChange={handleChange}
+                  name="text"
+                  type="text"
+                  placeholder="Item Details"
+                />
 
-            <TextInput
-              onChange={handleChange}
-              name="assignee"
-              type="text"
-              placeholder="Assignee Name"
-            />
+                <TextInput
+                  onChange={handleChange}
+                  name="assignee"
+                  type="text"
+                  placeholder="Assignee Name"
+                />
 
-            <Text>Difficulty Rating</Text>
-            <Slider
-              onChange={handleChange}
-              defaultValue={defaultValues.difficulty}
-              min={1}
-              max={5}
-              name="difficulty"
-            />
+                <Text>Difficulty Rating</Text>
+                <Slider
+                  onChange={handleChange}
+                  defaultValue={defaultValues.difficulty}
+                  min={1}
+                  max={5}
+                  name="difficulty"
+                />
 
-            <label>
-              <Button radius="md" type="submit">Add Item</Button>
-            </label>
-          </form>
+                <label>
+                  <Button radius="md" type="submit">Add Item</Button>
+                </label>
+              </form>
+            </Card>
+          </Auth>
         </Grid.Col>
         <Grid.Col xs={12} sm={8}>
           <List

@@ -16,10 +16,6 @@ import {
   Collapse,
   ScrollArea,
   rem,
-  Modal,
-  TextInput,
-  Paper,
-  Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -32,6 +28,8 @@ import {
 import React, { useState, useContext } from 'react';
 import { When } from 'react-if';
 import { AuthContext } from '../../Context/Auth';
+import SettingsForm from '../SettingsForm';
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -105,7 +103,7 @@ const useStyles = createStyles((theme) => ({
   logOut: {
     backgroundColor: theme.colors.red[6],
     color: theme.colors.gray[0],
-    
+
   },
 }));
 
@@ -130,6 +128,8 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
   const [colorScheme, setColorScheme] = useState('light'); // State variable for color scheme
   const [username, setUsername] = useState(''); // State variable for username
   const [password, setPassword] = useState(''); // State variable for password
+  const [settingsFormVisible, setSettingsFormVisible] = useState(false);
+
   const { loggedIn, logout } = useContext(AuthContext);
 
 
@@ -139,6 +139,10 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
 
     // Close the modal after submitting
     closeSignupModal();
+  };
+
+  const toggleSettingsForm = () => {
+    setSettingsFormVisible((prevVisible) => !prevVisible);
   };
 
   const links = mockdata.map((item) => (
@@ -182,10 +186,10 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
 
           {/* Links */}
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
-            <a href="#" className={classes.link}>
+            <Link to={'/'} className={classes.link}>
               Home
-            </a>
-            <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
+            </Link>
+                        <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
               <HoverCard.Target>
                 <a href="#" className={classes.link}>
                   <Center inline>
@@ -210,14 +214,15 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
                   {links}
                 </SimpleGrid>
                 <div className={classes.dropdownFooter}>
-                  {/* Dropdown footer */}
-                  {/* Omitted for brevity */}
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
 
-            {/* Settings button */}
-            <Button onClick={toggleColorScheme}>Settings</Button>
+            {/* Settings link */}
+            <Link to="/settings" className={classes.link}>
+              Settings
+            </Link>
+
 
             {/* Dark/Light Mode button */}
             <Button
@@ -240,9 +245,16 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
                 Log out
               </Button>
             </When>
-            <Button variant="default" onClick={openSignupModal}>
-              Sign up
-            </Button>
+            <When condition={!loggedIn}>
+              <Button variant="default" onClick={openSignupModal}>
+                Sign up
+              </Button>
+            </When>
+            <When condition={loggedIn}>
+              <Button className={classes.hiddenMobile} variant="default" onClick={openSignupModal}>
+                Add User
+              </Button>
+            </When>
           </Group>
 
           {/* Burger menu for mobile */}
@@ -285,7 +297,7 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
             <Button onClick={toggleColorScheme} leftIcon={colorScheme === 'light' ? IconSun : IconMoon}>
               Dark/Light {colorScheme === 'light' ? 'Light Mode' : 'Dark Mode'}
             </Button>
-           
+
           </Group>
         </ScrollArea>
       </Drawer>

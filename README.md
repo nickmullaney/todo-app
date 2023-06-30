@@ -77,4 +77,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 Thanks to Reece, Ike, & Ryan for the collaboration
 
+Thanks to Ryan for some sample code and starter code
+
 Thanks to ChatGPT for assisting with broken code sections and tests
