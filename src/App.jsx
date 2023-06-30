@@ -29,17 +29,17 @@ function App() {
 
   return (
     <>
-      <Auth capability={"read"}>
-        <HeaderMenu
-          openLoginModal={openLoginModal}
-          closeLoginModal={closeLoginModal}
-          openSignupModal={openSignupModal}
-          closeSignupModal={closeSignupModal}
-          signupOpened={signupOpened}
-        />
-        <ModalLogin opened={loginOpened} onClose={closeLoginModal} />
-        <ModalSignup opened={signupOpened} onClose={closeSignupModal} />
+      <HeaderMenu
+        openLoginModal={openLoginModal}
+        closeLoginModal={closeLoginModal}
+        openSignupModal={openSignupModal}
+        closeSignupModal={closeSignupModal}
+        signupOpened={signupOpened}
+      />
+      <ModalLogin opened={loginOpened} onClose={closeLoginModal} />
+      <ModalSignup opened={signupOpened} onClose={closeSignupModal} />
 
+      <Auth capability={"read"}>
         <Todo />
         <SettingsForm />
       </Auth>

@@ -29,7 +29,9 @@ import {
   IconSun,
   IconMoon,
 } from '@tabler/icons-react';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { When } from 'react-if';
+import { AuthContext } from '../../Context/Auth';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -99,7 +101,12 @@ const useStyles = createStyles((theme) => ({
     padding: theme.spacing.md,
     marginTop: theme.spacing.md,
     marginBottom: theme.spacing.md,
-  }
+  },
+  logOut: {
+    backgroundColor: theme.colors.red[6],
+    color: theme.colors.gray[0],
+    
+  },
 }));
 
 const mockdata = [
@@ -123,6 +130,8 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
   const [colorScheme, setColorScheme] = useState('light'); // State variable for color scheme
   const [username, setUsername] = useState(''); // State variable for username
   const [password, setPassword] = useState(''); // State variable for password
+  const { loggedIn, logout } = useContext(AuthContext);
+
 
   const handleSignupSubmit = () => {
     // Perform signup logic here
@@ -161,15 +170,6 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-  };
-
-  const handleLoginSubmit = () => {
-    // Perform login logic here
-    console.log('Username:', username);
-    console.log('Password:', password);
-
-    // Close the modal after submitting
-    closeLoginModal();
   };
 
   return (
@@ -230,10 +230,19 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
 
           {/* Login and signup buttons */}
           <Group className={classes.hiddenMobile}>
-            <Button variant="default" onClick={openLoginModal}>
-              Log in
+            <When condition={!loggedIn}>
+              <Button variant="default" onClick={openLoginModal}>
+                Log in
+              </Button>
+            </When>
+            <When condition={loggedIn}>
+              <Button className={classes.logOut} variant="default" onClick={logout}>
+                Log out
+              </Button>
+            </When>
+            <Button variant="default" onClick={openSignupModal}>
+              Sign up
             </Button>
-            <Button onClick={openSignupModal}>Sign up</Button>
           </Group>
 
           {/* Burger menu for mobile */}
@@ -276,12 +285,7 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
             <Button onClick={toggleColorScheme} leftIcon={colorScheme === 'light' ? IconSun : IconMoon}>
               Dark/Light {colorScheme === 'light' ? 'Light Mode' : 'Dark Mode'}
             </Button>
-            <Button variant="default" onClick={openLoginModal}>
-              Log in
-            </Button>
-            <Button variant="default" onClick={openSignupModal}>
-              Sign up
-            </Button>
+           
           </Group>
         </ScrollArea>
       </Drawer>
