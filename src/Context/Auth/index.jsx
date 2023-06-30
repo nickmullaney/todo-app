@@ -40,7 +40,7 @@ function AuthProvider({ children }) {
   // Function to perform the login process
   const login = async (username, password) => {
     let config = {
-      baseURL: 'https://auth-server-401.herokuapp.com',
+      baseURL: 'https://api-js401.herokuapp.com/',
       url: '/signin',
       method: 'post',
       auth: { username, password }

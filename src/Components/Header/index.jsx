@@ -189,16 +189,16 @@ function HeaderMenu({ openLoginModal, closeLoginModal, openSignupModal, closeSig
             <Link to={'/'} className={classes.link}>
               Home
             </Link>
-                        <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
+            <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
               <HoverCard.Target>
-                <a href="#" className={classes.link}>
+                <Link to={'/'} className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
-                      To Do
+                        To Do         
                     </Box>
                     <IconChevronDown size={16} color={theme.fn.primaryColor()} />
                   </Center>
-                </a>
+                </Link>
               </HoverCard.Target>
               <HoverCard.Dropdown sx={{ overflow: 'hidden' }}>
                 <Group position="apart" px="md">
