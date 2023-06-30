@@ -1,10 +1,12 @@
 import { Button, Modal, TextInput } from '@mantine/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../../Context/Auth';
 
 
 export function ModalLogin({ opened, onClose }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useContext(AuthContext);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -14,11 +16,14 @@ export function ModalLogin({ opened, onClose }) {
     setPassword(event.target.value);
   };
 
-  const handleLoginSubmit = () => {
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
     // Perform login logic here
+    login(username, password);
     console.log('Username:', username);
     console.log('Password:', password);
-
+    setUsername('');
+    setPassword('');
     // Close the modal after submitting
     onClose();
   };
