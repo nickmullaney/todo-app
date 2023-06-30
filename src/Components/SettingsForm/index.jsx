@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { SettingsContext } from '../Context/Settings';
+import { SettingsContext } from '../../Context/Settings';
 import { Button, createStyles, Grid, NumberInput, Switch, Text, TextInput } from '@mantine/core';
 import { IconSettings } from '@tabler/icons-react';
 import { When } from 'react-if';

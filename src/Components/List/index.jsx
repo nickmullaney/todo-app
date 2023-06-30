@@ -1,4 +1,4 @@
-import { SettingsContext } from '../Context/Settings';
+import { SettingsContext } from '../../Context/Settings';
 import { useContext, useState } from 'react';
 
 import { Card, Button, Pagination, Text } from '@mantine/core';

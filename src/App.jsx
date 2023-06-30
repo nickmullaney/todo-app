@@ -5,6 +5,7 @@ import HeaderMenu from './Components/Header';
 import SettingsForm from './Components/SettingsForm';
 import { ModalLogin } from './Components/Modals/modalLogin';
 import { ModalSignup } from './Components/Modals/modalSignup';
+import Auth from './Components/Auth';
 
 function App() {
   const [loginOpened, setLoginOpened] = useState(false);
@@ -37,8 +38,11 @@ function App() {
       />
       <ModalLogin opened={loginOpened} onClose={closeLoginModal} />
       <ModalSignup opened={signupOpened} onClose={closeSignupModal} />
-      <Todo />
-      <SettingsForm />
+
+      <Auth capability={"read"}>
+        <Todo />
+        <SettingsForm />
+      </Auth>
       <Footer />
     </>
   );
