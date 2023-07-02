@@ -4,7 +4,7 @@ import Header from '../Components/Header';
 
 
 
-describe('Header Component Tests', ()  => {
+describe('Footer Component Tests', ()  => {
   test('render a header element as expected', () => {
    
     render(<Header />);
